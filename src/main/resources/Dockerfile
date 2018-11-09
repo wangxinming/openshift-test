@@ -1,6 +1,6 @@
 # 基础JAVA环境
 FROM fabric8/java-centos-openjdk8-jdk:1.5.0
-LABEL maintainer="wangxp@fosun.com"
+LABEL maintainer="wangxm@fosun.com"
 
 # 时区
 ENV TZ=Asia/Shanghai
