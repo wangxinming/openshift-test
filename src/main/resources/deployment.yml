@@ -1,0 +1,65 @@
+---
+kind: Template
+apiVersion: v1
+objects:
+- kind: DeploymentConfig
+  apiVersion: apps.openshift.io/v1
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    replicas: ${{REPLICAS}}
+    revisionHistoryLimit: 10
+    selector:
+      app: ${APP_NAME}
+      deploymentconfig: ${APP_NAME}
+    template:
+      metadata:
+        labels:
+          app: ${APP_NAME}
+          deploymentconfig: ${APP_NAME}
+      spec:
+        containers:
+          - image: ${IMAGE_NAME}:${IMAGE_TAG}
+            imagePullPolicy: Always
+            name: ${APP_NAME}
+            ports:
+              - containerPort: ${{PORT}}
+                protocol: TCP
+            env:
+              - name: JAVA_OPTIONS
+                value: >-
+                  -Dspring.cloud.config.uri=http://msb-config.zikuinfo.svc/msb-config/
+            readinessProbe:
+              failureThreshold: 3
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              successThreshold: 1
+              tcpSocket:
+                port: ${{PORT}}
+              timeoutSeconds: 5
+        restartPolicy: Always
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - ${APP_NAME}
+          from:
+            kind: ImageStreamTag
+            name: '${APP_NAME}:${IMAGE_TAG}'
+
+parameters:
+- name: APP_NAME
+  required: true
+- name: IMAGE_NAME
+  required: true
+- name: IMAGE_TAG
+  required: true
+- name: REPLICAS
+  value: "1"
+  required: true
+- name: PORT
+  required: true

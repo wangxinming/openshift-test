@@ -1,0 +1,30 @@
+---
+kind: Template
+apiVersion: v1
+objects:
+- kind: Route
+  apiVersion: route.openshift.io/v1
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    host: ${ROUTE_HOST}
+    path: ${ROUTE_PATH}
+    port:
+      targetPort: ${PORT}-tcp
+    to:
+      kind: Service
+      name: ${APP_NAME}
+    wildcardPolicy: None
+
+parameters:
+- name: APP_NAME
+  required: true
+- name: PORT
+  required: true
+- name: ROUTE_HOST
+  required: true
+- name: ROUTE_PATH
+  value: /
+  required: true

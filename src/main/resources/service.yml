@@ -1,0 +1,26 @@
+---
+kind: Template
+apiVersion: v1
+objects:
+- kind: Service
+  apiVersion: v1
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    ports:
+      - name: ${PORT}-tcp
+        port: ${{PORT}}
+        protocol: TCP
+        targetPort: ${{PORT}}
+    selector:
+      app: ${APP_NAME}
+      deploymentconfig: ${APP_NAME}
+    type: ClusterIP
+
+parameters:
+- name: APP_NAME
+  required: true
+- name: PORT
+  required: true
