@@ -1,8 +1,9 @@
 server:
   port: 8080
 spring:
-  datasource:
-    url: ${spring_datasource_url}
+#  datasource:
+#    url: @spring_datasource_url@
+# mvn clean package -DskipTests -Dspring_datasource_url=123
   ldap:
     urls: ldap://192.168.200.10:389
     username: v_luoxy@fosun.com
