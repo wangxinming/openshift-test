@@ -1,2 +1,10 @@
 server:
   port: 8080
+spring:
+  datasource:
+    url: ${spring_datasource_url}
+  ldap:
+    urls: ldap://192.168.200.10:389
+    username: v_luoxy@fosun.com
+    password: 2018!Fosun
+    base: DC=fosun,DC=com
