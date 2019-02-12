@@ -30,7 +30,7 @@ objects:
             env:
               - name: JAVA_OPTIONS
                 value: >-
-                  -Dspring.cloud.config.uri=http://msb-config.zikuinfo.svc/msb-config/
+                  -Dspring.cloud.config.uri=http://xxx/
             readinessProbe:
               failureThreshold: 3
               initialDelaySeconds: 10
